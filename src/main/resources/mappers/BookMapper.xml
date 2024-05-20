@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cc.springbootbms.dao.BookMapper">
+
+    <resultMap id="bookMap" type="Book" autoMapping="true">
+        <association property="type" javaType="Type" autoMapping="true"/>
+    </resultMap>
+
+    <select id="queryBooks" resultMap="bookMap">
+        select
+            b.*,t.typeDesc
+        from
+            book b,type t
+        where
+            b.bookType=t.typeId
+        <if test="bookName != null and bookName != ''">
+            and bookName like '%${arg0}%'
+        </if>
+    </select>
+
+    <insert id="insert">
+        insert into book(bookName,author,buyDate,bookType) values(
+        #{bookName},#{author},#{buyDate},
+        <if test="bookType != null and bookType != 0">
+            #{bookType}
+        </if>
+        )
+    </insert>
+
+    <delete id="delete">
+        delete from book where bookId=#{bId}
+    </delete>
+
+    <select id="queryById" resultMap="bookMap">
+        select * from book where bookId=#{bId}
+    </select>
+
+    <update id="update">
+        update book set
+        bookName=#{bookName},
+        author=#{author},
+        buyDate=#{buyDate},
+        bookType=#{bookType}
+        where
+        bookId=#{bookId}
+    </update>
+
+</mapper>

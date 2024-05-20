@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书列表</title>
+    <style>
+        .main {
+            border: red solid;
+            border-radius: 10px;
+            width: 700px;
+            height: 500px;
+            text-align: center;
+            margin: 50px auto;
+        }
+
+        h3 {
+            margin-top: 30px;
+        }
+
+        #search {
+            width: 100px;
+            height: 18px;
+        }
+
+        .search {
+            margin-top: 30px;
+        }
+
+        #btnSearch {
+            margin-right: 432px;
+        }
+
+        table {
+            margin-top: 15px;
+            line-height: 25px;
+            /*设置表格边框为单线*/
+            border-collapse: collapse;
+        }
+
+        .pageInfo{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <h3>图书列表</h3>
+    <div class="search">
+        <form action="" method="get">
+            <input id="search" type="text" name="name">
+            <input id="btnSearch" type="submit" value="查询">
+            <input id="btnAdd" type="button" value="添加" onclick="addSrc()">
+        </form>
+    </div>
+    <!--caption标签：定义表格标题，写在table标签的上方-->
+<!--    <caption>表格标题</caption>-->
+    <table border="1" align="center">
+        <tr>
+            <th width="15%">图书名称</th>
+            <th width="15%">图书作者</th>
+            <th width="15%">购买日期</th>
+            <th width="15%">图书类别</th>
+            <th width="20%">操作</th>
+        </tr>
+        <tr th:each="book:${bookList}" align="center">
+            <td th:text="${book.bookName}">null</td>
+            <td th:text="${book.author}">null</td>
+            <td th:text="${book.buyDate}">null</td>
+            <td th:text="${book.type.typeDesc}">null</td>
+            <td>
+                <a th:href="@{/toAdd.do}">添加</a> |
+                <a th:href="@{/remove.do(id=${book.bookId})}">删除</a> |
+                <a th:href="@{/toModify.do(id=${book.bookId})}">修改</a>
+            </td>
+        </tr>
+    </table>
+    <!--分页-->
+    <div class="pageInfo">
+        共<span th:text="${page.total}">8</span>条记录&nbsp;
+        <span th:text="${page.pageNum}">1</span>/<span th:text="${page.pages}">3</span>页&nbsp;
+
+        <a th:href="@{/(pageNo=${page.navigateFirstPage})}">首页</a>
+        <a th:href="@{/(pageNo=${page.prePage})}">上一页</a>
+        <a th:href="@{/(pageNo=${page.nextPage})}">下一页</a>
+        <a th:href="@{/(pageNo=${page.navigateLastPage})}">尾页</a>
+
+        <label for="inputPage" style="margin-left: 162px">跳转至</label>
+        <input type="number" id="inputPage" style="width: 40px;height: 17px">页
+        <button name="goPage" onclick="goPage()">GO</button>
+    </div>
+</div>
+</body>
+</html>
+
+<!--在script标签中使用$进行文档操作(DOM文档对象模型)需要导入JQuery库，Thymeleaf没有提供-->
+<script type="application/javascript" src="js/jquery-1.8.3.min.js"></script>
+<!--内联js-->
+<script th:inline="javascript">
+    function addSrc() {
+        location.href = "toAdd.do";
+    }
+    function goPage() {
+        let input = $("#inputPage").val();
+        if (input <= 0){
+            input = 1;
+        }
+        if (input > [[${page.pages}]]){
+            input = [[${page.pages}]];
+        }
+        location.href = "?pageNo="+input;
+    }
+</script>

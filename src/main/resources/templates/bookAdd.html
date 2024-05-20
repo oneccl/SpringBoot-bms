@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加图书</title>
+    <style>
+        div {
+            text-align: center;
+            margin: 100px auto;
+            width: 360px;
+            height: 260px;
+            border: red solid;
+            border-radius: 10px;
+        }
+
+        select {
+            width: 178px;
+        }
+
+        #bookName {
+            margin-top: 10px;
+        }
+
+        h3 {
+            margin-top: 30px;
+        }
+
+        span{
+            left: 46%;
+            color: red;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <span th:text="${res}"></span>
+    <h3>添加页面</h3>
+    <form action="add.do" method="post">
+        <label for="bookName">图书名称:</label>
+        <input type="text" id="bookName" name="bookName"><br>
+
+        <label for="author">图书作者:</label>
+        <input type="text" id="author" name="author"><br>
+
+        <label for="buyDate">购买日期:</label>
+        <input type="text" id="buyDate" name="buyDate"><br>
+
+        <label for="bookType">图书类别:</label>
+        <select id="bookType" name="bookType">
+            <option value="0">请选择</option>
+            <option value="1">计算机软件</option>
+            <option value="2">小说</option>
+            <option value="3">杂志文摘</option>
+        </select><br><br>
+
+        <input type="submit" value="保存">&nbsp;&nbsp;
+        <input type="button" value="返回" onclick="back()">
+
+    </form>
+</div>
+</body>
+</html>
+<script>
+    function back() {
+        history.back();
+    }
+</script>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改图书信息</title>
+    <style>
+        div {
+            text-align: center;
+            margin: 100px auto;
+            width: 360px;
+            height: 260px;
+            border: red solid;
+            border-radius: 10px;
+        }
+
+        select {
+            width: 178px;
+        }
+
+        #bookName {
+            margin-top: 10px;
+        }
+        h3{
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h3>修改页面</h3>
+    <form action="modify.do" method="post">
+        <input type="hidden" name="bookId" th:value="${findBook.bookId}">
+
+        <label for="bookName">图书名称:</label>
+        <input type="text" id="bookName" name="bookName" th:value="${findBook.bookName}"><br>
+
+        <label for="author">图书作者:</label>
+        <input type="text" id="author" name="author" th:value="${findBook.author}"><br>
+
+        <label for="buyDate">购买日期:</label>
+        <input type="text" id="buyDate" name="buyDate" th:value="${findBook.buyDate}"><br>
+
+        <label for="bookType">图书类别:</label>
+        <select id="bookType" name="bookType">
+            <option th:each="type:${typeList}" th:selected="${findBook.bookType == type.typeId}" th:value="${type.typeId}" th:text="${type.typeDesc}">请选择</option>
+        </select><br><br>
+
+        <input type="submit" value="确定">&nbsp;&nbsp;
+        <input type="button" value="返回" onclick="back()">
+
+    </form>
+</div>
+</body>
+</html>
+<script>
+    function back() {
+        history.back();
+    }
+</script>
